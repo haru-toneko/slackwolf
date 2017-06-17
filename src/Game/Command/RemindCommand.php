@@ -43,7 +43,7 @@ class RemindCommand extends Command
         $roleDescription = $player->role->getDescription();
 
         // DM the player his current role and description
-        $reminder_msg = "あなたの職業は\r\n" . '_' . $roleName . '_ - ' . $roleDescription . "\nです。";
+        $reminder_msg = "あなたの役割は\r\n" . '_' . $roleName . '_ - ' . $roleDescription . "\nです。";
 
         $client->getDMByUserID($player->getId())
             ->then(function(DirectMessageChannel $dm) use ($client, $reminder_msg) {
