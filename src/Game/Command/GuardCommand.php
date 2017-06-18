@@ -169,7 +169,7 @@ class GuardCommand extends Command
 
         $client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
-                   $client->send("ガードされました。", $channel);
+                   $client->send("ガード成功", $channel);
                });
 
         $this->gameManager->changeGameState($this->game->getId(), GameState::DAY);
