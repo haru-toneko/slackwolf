@@ -86,7 +86,7 @@ class GuardCommand extends Command
             $this->client->getDMById($this->channel)
                          ->then(
                              function (DirectMessageChannel $dmc) use ($client) {
-                                 $this->client->send(":warning: Invalid channel specified. Usage: !guard #channel @user", $dmc);
+                                 $this->client->send(":warning: 無効なチャンネルが選択されました。 正しい使い方: !guard #ゲームが進行しているチャンネル @守る対象のプレーヤー名", $dmc);
                              }
                          );
             throw new InvalidArgumentException();
@@ -115,27 +115,27 @@ class GuardCommand extends Command
         if ($this->game->getState() != GameState::NIGHT) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: You can only guard at night.", $channel);
+                       $client->send(":warning: 夜の間にしかガードできません。", $channel);
                    });
-            throw new Exception("Guarding occurs only during the night.");
+            throw new Exception("夜の間のみ守護者は行動できます。");
         }
 
         // Voter should be alive
         if ( ! $this->game->isPlayerAlive($this->userId)) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: You aren't alive in the specified channel.", $channel);
+                       $client->send(":warning: あなたは指定されたチャンネル内での生存者でありません。", $channel);
                    });
-            throw new Exception("Can't guard if dead.");
+            throw new Exception("死んでいる場合はガードできません。");
         }
 
         // Person player is voting for should also be alive
         if ( ! $this->game->isPlayerAlive($this->args[1])) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: Could not find that player.", $channel);
+                       $client->send(":warning: そのプレイヤーが見つかりませんでした。", $channel);
                    });
-            throw new Exception("Voted player not found in game.");
+            throw new Exception("投票されたプレイヤーが見つかりませんでした。");
         }
 
         // Person should be bodyguard
@@ -144,32 +144,32 @@ class GuardCommand extends Command
         if (!$player->role->isRole(Role::BODYGUARD)) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: You have to be a bodyguard to guard.", $channel);
+                       $client->send(":warning: あなたはガードをするための守護者である必要があります。", $channel);
                    });
-            throw new Exception("Only bodyguard can guard.");
+            throw new Exception("守護者のみガードができます。");
         }
 
         if ($this->game->getGuardedUserId() !== null) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: You have already guarded.", $channel);
+                       $client->send(":warning: あなたはすでにガードされています。", $channel);
                    });
-            throw new Exception("You have already guarded.");
+            throw new Exception("あなたはすでにガードされています。");
         }
 
         if ($this->game->getLastGuardedUserId() == $this->args[1]) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: You cant guard the same player as last night.", $channel);
+                       $client->send(":warning: 昨夜と同じプレイヤーをガードすることはできません。", $channel);
                    });
-            throw new Exception("You can't guard the same player as last night");
+            throw new Exception("昨夜と同じプレイヤーをガードすることはできません。");
         }
 
         $this->game->setGuardedUserId($this->args[1]);
 
         $client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
-                   $client->send("Guarding successful.", $channel);
+                   $client->send("ガードされました。", $channel);
                });
 
         $this->gameManager->changeGameState($this->game->getId(), GameState::DAY);
