@@ -6,6 +6,7 @@ use Slack\ChannelInterface;
 use Slack\DirectMessageChannel;
 use Slack\RealTimeClient;
 use Slackwolf\Game\Command\Command;
+use Slackwolf\Game\Formatter\AssignedRoleCountFormatter;
 use Slackwolf\Game\Formatter\PlayerListFormatter;
 use Slackwolf\Game\Formatter\RoleListFormatter;
 use Slackwolf\Game\Formatter\RoleSummaryFormatter;
@@ -289,6 +290,9 @@ class GameManager
 
         $game->assignRoles();
         $this->changeGameState($id, GameState::FIRST_NIGHT);
+
+        $roleMsg = AssignedRoleCountFormatter::format($game);
+        $this->sendMessageToChannel($game, $roleMsg);
     }
 
     /**
