@@ -21,6 +21,6 @@ class Fool extends Role
      * {@inheritdoc}
      */
 	public function getDescription() {
-		return "Same role as the Seer, but the information given is only correct 30% of the time. The Fool also does not know he is not the (real) Seer. Only Beholder knows who the real Seer is.";
+		return "占い師と同じような役割だが、与えられる情報は30％しか正しくない。愚者もまた誰が（本当の）占い師なのか知らない。監視者だけが本当の占い師が誰なのか知っている。";
 	}
 }

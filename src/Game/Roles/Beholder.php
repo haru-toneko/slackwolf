@@ -21,6 +21,6 @@ class Beholder extends Role
      * {@inheritdoc}
      */
 	public function getDescription() {
-		return "A villager who learns who the Seer is on the first night.";
+		return "最初の夜に誰が占い師なのか知ることができる村人";
 	}
 }

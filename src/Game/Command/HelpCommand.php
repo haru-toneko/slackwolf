@@ -18,56 +18,56 @@ class HelpCommand extends Command
     {
         $client = $this->client;
 
-        $help_msg =  "\r\n*How to Play #Werewolf*\r\n------------------------\r\n";
-        $help_msg .= "Werewolf is a party game of social deduction. Players are private messaged their role when the game begins. \r\n\r\n";
-        $help_msg .= "_If you are a Villager_, you must find out who the werewolves are based on their voting and your social deduction skills.\r\n ";
-        $help_msg .= "_If you are a Werewolf_, you must pretend you are not a werewolf by lying as best as you can.\r\n\r\n";
-        $help_msg .= "The game takes place over several Days and Nights. Each Day all players vote on a player to eliminate. The player with the most votes is eliminated. If there is a tie, nobody is lynched. \r\n";
-        $help_msg .= "_Each night_, the werewolves will be allowed to vote privately on one player to eliminate. The decision must be unanimous. If its not, you'll keep voting until it is. The bot will private message you.\r\n";
-        $help_msg .= "The villagers win if they eliminate all the werewolves. The werewolves win if they equal or outnumber the remaining players.\r\n\r\n";
-        $help_msg .= "*Special Roles*\r\n------------------------\r\n";
+        $help_msg =  "\r\n*#人狼 の遊び方*\r\n------------------------\r\n";
+        $help_msg .= "人狼は社会推論のパーティーゲームです。プレイヤーたちはゲームが始まるとプライベートメッセージで自分の役割が通知されます。 \r\n\r\n";
+        $help_msg .= "もしあなたが村人なら−−あなたは自分の社会推論の技術と投票に基づいて誰が人狼なのかを見つけ出さなければなりません。\r\n ";
+        $help_msg .= "もしあなたが人狼なら−−あなたはできる限りの嘘をついて自分が人狼でないように装わなければなりません。\r\n\r\n";
+        $help_msg .= "ゲームは昼と夜の数日間にわたって行われます。毎日全員の投票によって誰か一人が排除されます。得票数の最も多いプレーヤーが削除されます。もし得票が同じ場合はだれも吊るされません。\r\n";
+        $help_msg .= "毎夜−−人狼達は非公開で投票し、誰か一人プレイヤー排除することが許されます。決定は満場一致でなければなりません。もし意見が割れた場合は、再度投票を行います。ボットがあなたにメッセージを送るでしょう。\r\n";
+        $help_msg .= "村人達は、すべての人狼が排除されると勝利します。人狼達は、人狼の数が残っているプレイヤーの過半数を占めると勝利します。\r\n\r\n";
+        $help_msg .= "*特別な役割*\r\n------------------------\r\n";
 
         foreach(Role::getSpecialRoles() as $specialRole) {
             $help_msg .= '_'.$specialRole->getName() . "_ - " . $specialRole->getDescription() . "\r\n";
         }
         $help_msg .= "\r\n";
 
-        $help_msg .= "*Game Modes*\r\n------------------------\r\n";
-        $help_msg .= "Classic Mode : Required Roles [Seer, Hunter, Witch, Werewolves]. Seer is able to see someone during the first night\r\n";
-        $help_msg .= "Chaos Mode : Required Roles [Werewolves]. All night roles (e.g. Seer, Witch, Werewolves, Bodyguard) can do their commands since the first night\r\n\r\n";
-        $help_msg .= "*Game Commands*\r\n------------------------\r\n";
-        $help_msg .= "`!new` - Create a new lobby for players to !join for the next game\r\n";
-        $help_msg .= "`!join` - Join the lobby for the next game\r\n";
-        $help_msg .= "`!leave` - Leave the lobby for the next game\r\n";
-        $help_msg .= "`!start` - Start the game, when called with no parameters the lobby players are used\r\n";
-        $help_msg .= "`!start all` - Starts a new game with everyone in the channel participating\r\n";
-        $help_msg .= "`!start @user1 @user2 @user3` - Starts a new game with the specified users participating\r\n";
-        $help_msg .= "`!end` - Cause the game to end prematurely\r\n";
-        $help_msg .= "`!option` - View or change options.  Use without any parameters for help and current values.\r\n";
-        $help_msg .= "`!remindme` - Remind you of your role in the current game\r\n";
-        $help_msg .= "`!dead` - Show dead players\r\n";
-        $help_msg .= "`!alive` - Show living players\r\n";
-        $help_msg .= "`!status` - Show game status\r\n";
-        $help_msg .= "`!role` - Show assigned roles count\r\n";
+        $help_msg .= "*ゲームモード*\r\n------------------------\r\n";
+        $help_msg .= "クラシックモード：必要な役割 [占い師、ハンター、魔術師、人狼] 占い師は最初の夜に誰か一人占うことができる\r\n";
+        $help_msg .= "カオスモード：必要な役割 [人狼] すべての夜に活動できる役割（たとえば占い師、魔術師、人狼、ボディーガード）は最初の夜から行動できる\r\n\r\n";
+        $help_msg .= "*ゲームコマンド*\r\n------------------------\r\n";
+        $help_msg .= "`!new` - プレイヤーが次のゲームに!joinするための新しいロビーを作る\r\n";
+        $help_msg .= "`!join` - 次のゲームのためのロビーに参加する\r\n";
+        $help_msg .= "`!leave` - 次のゲームのためのロビーから離脱する\r\n";
+        $help_msg .= "`!start` - ゲームをスタートする。引数なしで読んだ場合はロビーにいるプレイヤーで開始する\r\n";
+        $help_msg .= "`!start all` - チャンネルに参加している全員で新しいゲームを開始する\r\n";
+        $help_msg .= "`!start @user1 @user2 @user3` - 指定した参加者で新しいゲームを開始する\r\n";
+        $help_msg .= "`!end` - 途中でゲームを終了する\r\n";
+        $help_msg .= "`!option` - オプション設定を確認と変更。引数なしで使うとヘルプと現在の値を表示する。\r\n";
+        $help_msg .= "`!remindme` - 現在のゲームでの自分の役割を再確認する\r\n";
+        $help_msg .= "`!dead` - 死んだプレイヤーを表示する\r\n";
+        $help_msg .= "`!alive` - 生きているプレイヤーを表示する\r\n";
+        $help_msg .= "`!status` - ゲームの状態を表示する\r\n";
+        $help_msg .= "`!role` - ゲーム開始時の役割毎の数を表示する\r\n";
 
-        $help_msg .= "\r\n*Villager Commands*\r\n----------------------\r\n";
-        $help_msg .= "`!vote @user1|noone|clear` - During the day, Vote for a @player, no one (no lynch), or clear your existing vote (changevote option must be enabled).\r\n";
+        $help_msg .= "\r\n*村人のコマンド*\r\n----------------------\r\n";
+        $help_msg .= "`!vote @user1|noone|clear` - 昼の間、@playerかnoone(誰も吊るさない)かclearで投票を取り消す(投票変更のオプションが有効な場合)\r\n";
 
-        $help_msg .= "\r\n*Werewolf Commands*\r\n----------------------\r\n";
-        $help_msg .= "`!kill #channel @user1` - As a werewolf, in a PM to the bot, you can vote to kill a user each night. Must be unanimous amongst all werewolves.\r\n";
+        $help_msg .= "\r\n*人狼のコマンド*\r\n----------------------\r\n";
+        $help_msg .= "`!kill #channel @user1` - 人狼として、ボットとのプライベートメッセージで毎夜殺す人間に投票できる。すべての人狼の間で満場一致する必要があります。\r\n";
 
-        $help_msg .= "\r\n*Seer Commands*\r\n--------------------------\r\n";
-        $help_msg .= "`!see #channel @user1` -  Seer only. As the seer, find out if user is villager or werewolf. #channel is the name of the channel you're playing in\r\n";
+        $help_msg .= "\r\n*占い師のコマンド*\r\n--------------------------\r\n";
+        $help_msg .= "`!see #channel @user1` -  占い師のみ。占い師としてプレイヤーが人狼なのか村人なのか判別する。\r\n";
 
-        $help_msg .= "\r\n*Witch Commands*\r\n-------------------------\r\n";
-        $help_msg .= "`!poison #channel @user1` - Witch only. During night time, the witch can choose to use her poison potion to kill a target player once per game.\r\n";
-        $help_msg .= "`!heal #channel @user1` - Witch only. During night time, the witch can choose to use her healing potion to revive a targeted player once per game.\r\n";
+        $help_msg .= "\r\n*魔術師のコマンド*\r\n-------------------------\r\n";
+        $help_msg .= "`!poison #channel @user1` - 魔術師のみ。夜の間、魔術師は一度のゲーム中で一回毒薬で殺すターゲットを選ぶことができる。\r\n";
+        $help_msg .= "`!heal #channel @user1` - 魔術師のみ。夜の間、魔術師は一度のゲーム中で一回回復薬で復活させるターゲットを選ぶことができる。\r\n";
 
-        $help_msg .= "\r\n*Bodyguard Commands*\r\n---------------------\r\n";
-        $help_msg .= "`!guard #channel @user1` - Bodyguard only. The bodyguard can protect a player from being eliminated once each night. Cant select the same user two nights in a row.\r\n";
+        $help_msg .= "\r\n*ボディーガードのコマンド*\r\n---------------------\r\n";
+        $help_msg .= "`!guard #channel @user1` - ボディーガードのみ。ボディーガードは毎夜一度排除されようとしているプレイヤーを守ることができる。二夜続けて同じ人間を選ぶことはできない。\r\n";
 
-        $help_msg .= "\r\n*Hunter Commands*\r\n----------------------\r\n";
-        $help_msg .= "`!shoot @user1` - Hunter only. The hunter can shoot and kill another player if they are killed during day or night.\r\n";
+        $help_msg .= "\r\n*ハンターのコマンド*\r\n----------------------\r\n";
+        $help_msg .= "`!shoot @user1` - ハンターのみ。ハンターは昼か夜の間殺される場合、他の誰か一人を撃ち殺すことができる。\r\n";
 
         $this->client->getDMByUserId($this->userId)->then(function(DirectMessageChannel $dm) use ($client, $help_msg) {
             $client->send($help_msg, $dm);

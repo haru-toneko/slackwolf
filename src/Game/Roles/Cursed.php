@@ -35,7 +35,7 @@ class Cursed extends Werewolf
      * {@inheritdoc}
      */
 	public function getDescription() {
-		return "A cursed child who will turn into a werewolf when bitten by werewolves.";
+		return "人狼に噛まれると人狼に変わる呪われた子供";
 	}
 
 	public function kill() {
