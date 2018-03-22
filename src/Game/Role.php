@@ -8,6 +8,8 @@ use Slackwolf\Game\Roles\Seer;
 use Slackwolf\Game\Roles\Tanner;
 use Slackwolf\Game\Roles\Witch;
 use Slackwolf\Game\Roles\WolfMan;
+use Slackwolf\Game\Roles\Fool;
+use Slackwolf\Game\Roles\Cursed;
 
 /**
  * Defines the Role class.
@@ -64,7 +66,6 @@ class Role
     const VILLAGER = "村人";
     const SEER = "占い師";
     const WEREWOLF = "人狼";
-
     const BEHOLDER = "監視者";
     const BODYGUARD = "ボディーガード";
     const HUNTER = "ハンター";
@@ -82,7 +83,9 @@ class Role
             new Seer(),
             new Tanner(),
             new Witch(),
-            new WolfMan()
+            new WolfMan(),
+            new Fool(),
+            new Cursed()
         ];
     }
 }

@@ -22,6 +22,7 @@ use Slackwolf\Game\Command\VoteCommand;
 use Slackwolf\Game\Command\SetOptionCommand;
 use Slackwolf\Game\Command\StatusCommand;
 use Slackwolf\Game\Command\WeatherCommand;
+use Slackwolf\Game\Command\AssignedRoleCommand;
 use Slackwolf\Game\GameManager;
 use Slackwolf\Message\Message;
 
@@ -61,25 +62,26 @@ class Slackwolf
          * Setup command bindings
          */
         $commandBindings = [
-            'help'      => HelpCommand::class,
-            'option'    => SetOptionCommand::class,
-            'remindme'  => RemindCommand::class,
-            'new'       => NewCommand::class,
-            'join'      => JoinCommand::class,
-            'leave'     => LeaveCommand::class,
-            'start'     => StartCommand::class,
-            'end'       => EndCommand::class,
-            'see'       => SeeCommand::class,
-            'vote'      => VoteCommand::class,
-            'kill'      => KillCommand::class,
-            'poison'    => PoisonCommand::class,
-            'guard'     => GuardCommand::class,
-            'heal'      => HealCommand::class,
-            'shoot'     => ShootCommand::class,
-            'alive'     => AliveCommand::class,
-            'dead'      => DeadCommand::class,
-            'status'    => StatusCommand::class,
-        //  'weather'   => WeatherCommand::class,
+            'help'     => HelpCommand::class,
+            'option'   => SetOptionCommand::class,
+            'remindme' => RemindCommand::class,
+            'new'      => NewCommand::class,
+            'join'     => JoinCommand::class,
+            'leave'    => LeaveCommand::class,
+            'start'    => StartCommand::class,
+            'end'      => EndCommand::class,
+            'see'      => SeeCommand::class,
+            'vote'     => VoteCommand::class,
+            'kill'     => KillCommand::class,
+            'poison'   => PoisonCommand::class,
+            'guard'    => GuardCommand::class,
+            'heal'     => HealCommand::class,
+            'shoot'    => ShootCommand::class,
+            'alive'    => AliveCommand::class,
+            'dead'     => DeadCommand::class,
+            'status'   => StatusCommand::class,
+        //  'weather'  => WeatherCommand::class,
+            'role'     => AssignedRoleCommand::class,
         ];
 
         /*

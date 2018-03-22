@@ -9,6 +9,7 @@ use Slackwolf\Game\GameState;
 use Slackwolf\Game\RoleStrategy;
 use Slackwolf\Game\Formatter\PlayerListFormatter;
 use Slackwolf\Message\Message;
+use Slackwolf\Game\OptionName;
 
 /**
  * Defines the NewCommand class.
@@ -39,7 +40,6 @@ class NewCommand extends Command
         $gameManager = $this->gameManager;
         $message = $this->message;
         
-        $loadPlayers = true;
         // Check to see that a game does not currently exist
         if ($this->gameManager->hasGame($this->channel)) {
             $this->client->getChannelGroupOrDMByID($this->channel)->then(function (ChannelInterface $channel) use ($client, $gameManager) {
@@ -56,7 +56,15 @@ class NewCommand extends Command
         }
 
         try {
-            $gameManager->newGame($message->getChannel(), [], new RoleStrategy\Classic());        
+            $cmdLineArgs = $this->filterArgs();
+            $gameMode = $cmdLineArgs[OptionName::GAME_MODE];
+            if ($gameMode == null) {
+                $gameMode = $gameManager->optionsManager->getOptionValue(OptionName::GAME_MODE);
+            }
+
+            $roleStrategy = RoleStrategy\RoleStrategyFactory::build($gameMode);
+            $gameManager->newGame($message->getChannel(), [], $roleStrategy);
+
             $game = $gameManager->getGame($message->getChannel());
             $this->gameManager->sendMessageToChannel($game, "新しいゲームのロビーが作成されました。!joinでこのルームに参加できます。");
             $userId = $this->userId;
@@ -79,6 +87,23 @@ class NewCommand extends Command
             $this->client->getChannelGroupOrDMByID($this->channel)->then(function (ChannelInterface $channel) use ($client,$e) {
                 $client->send($e->getMessage(), $channel);
             });
-        }        
+        }
+    }
+
+    /**
+     * @return array of valid args
+     */
+    private function filterArgs()
+    {
+        $cmdLineArgs = [];
+        $cmdLineArgs[OptionName::GAME_MODE] = null;
+
+        foreach ($this->args as $arg) {
+            if (in_array($arg, OptionName::NEW_MODE_OPTIONS)) {
+                $cmdLineArgs[OptionName::GAME_MODE] = $arg;
+            }
+        }
+
+        return $cmdLineArgs;
     }
 }
