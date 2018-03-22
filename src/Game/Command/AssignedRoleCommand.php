@@ -8,6 +8,8 @@ use Slackwolf\Game\Game;
 
 /**
  * Defines the AssignedRoleCommand class.
+ * 
+ * @package Slackwolf\Game\Command
  */
 class AssignedRoleCommand extends Command
 {
@@ -17,12 +19,10 @@ class AssignedRoleCommand extends Command
      */
     public function fire()
     {
-        $client = $this->client;
-
         if ( ! $this->gameManager->hasGame($this->channel)) {
-            $client->getChannelGroupOrDMByID($this->channel)
+            $this->client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
-                   $client->send(":warning: Run this command in the game channel.", $channel);
+                   $this->client->send(":warning: Run this command in the game channel.", $channel);
                });
             return;
         }
