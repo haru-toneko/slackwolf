@@ -24,16 +24,16 @@ class RemindCommand extends Command
         if ($this->channel[0] == 'D') {
             $client->getDMByUserId($this->userId)
                 ->then(function(DirectMessageChannel $dm) use ($client) {
-                    $client->send(":warning: Run this command in the game channel.", $dm);
+                    $client->send(":warning: このコマンドはゲームが進行しているチャンネルでのみ利用できます。", $dm);
                 });
             return;
         }
 
         if (!$this->gameManager->hasGame($this->channel) || $this->game->state == GameState::LOBBY) {
             $client->getChannelGroupOrDMByID($this->channel)
-                ->then(function (ChannelInterface $channel) use ($client) {
-                    $client->send(":warning: No game in progress.", $channel);
-                });
+               ->then(function (ChannelInterface $channel) use ($client) {
+                   $client->send(":warning: 現在ゲーム中ではありません。", $channel);
+               });
             return;
         }
 
@@ -45,7 +45,7 @@ class RemindCommand extends Command
         $roleDescription = $player->role->getDescription();
 
         // DM the player his current role and description
-        $reminder_msg = "Your current role is:\r\n" . '_' . $roleName . '_ - ' . $roleDescription;
+        $reminder_msg = "あなたの役割は\r\n" . '_' . $roleName . '_ - ' . $roleDescription . "\nです。";
 
         $client->getDMByUserID($player->getId())
             ->then(function(DirectMessageChannel $dm) use ($client, $reminder_msg) {

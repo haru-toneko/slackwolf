@@ -25,7 +25,7 @@ class EndCommand extends Command
         parent::__construct($client, $gameManager, $message, $args);
 
         if ($this->channel[0] == 'D') {
-            throw new Exception("Can't start a game by direct message.");
+            throw new Exception("ダイレクトメッセージからはゲームを始められません。");
         }
     }
 
@@ -39,7 +39,7 @@ class EndCommand extends Command
         if ( ! $this->gameManager->hasGame($this->channel)) {
             $client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
-                   $client->send(":warning: No game in progress.", $channel);
+                   $client->send(":warning: 現在ゲーム中ではありません。", $channel);
                });
             return;
         }

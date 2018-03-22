@@ -24,9 +24,9 @@ class VoteSummaryFormatter
             $numVoters = count($voters);
 
             if ($voteForId == 'noone'){
-                $msg .= ":peace_symbol: No lynch\t\t | ({$numVoters}) | ";
+                $msg .= ":peace_symbol: リンチしない派\t\t | ({$numVoters}) | ";
             } else {
-                $msg .= ":coffin: Lynch @{$voteForPlayer->getUsername()}\t\t | ({$numVoters}) | ";
+                $msg .= ":coffin: @{$voteForPlayer->getUsername()}をリンチする\t\t | ({$numVoters}) | ";
             }
 
             $voterNames = [];
@@ -40,7 +40,7 @@ class VoteSummaryFormatter
             $msg .= implode(', ', $voterNames) . "\r\n";
         }
 
-        $msg .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - -\r\n:hourglass: Remaining Voters: ";
+        $msg .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - -\r\n:hourglass: まだ投票していないプレーヤー: ";
 
         $playerNames = [];
 

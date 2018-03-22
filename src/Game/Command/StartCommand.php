@@ -27,7 +27,7 @@ class StartCommand extends Command
         parent::__construct($client, $gameManager, $message, $args);
 
         if ($this->channel[0] == 'D') {
-            throw new Exception("Can't start a game by direct message.");
+            throw new Exception("ゲームはダイレクトメッセージからは始められません。");
         }
     }
 
@@ -53,7 +53,7 @@ class StartCommand extends Command
                 }
             } else {
                 $this->client->getChannelGroupOrDMByID($this->channel)->then(function (ChannelInterface $channel) use ($client) {
-                    $client->send('A game is already in progress.', $channel);
+                    $client->send('ゲームはすでに進行中です。', $channel);
                 });
                 return;
             }
@@ -71,7 +71,7 @@ class StartCommand extends Command
                     if (count($users) < 3) {
                         $this->client->getChannelGroupOrDMByID($this->channel)
                             ->then(function (ChannelInterface $channel) use ($client) {
-                                $client->send("Cannot start a game with less than 3 players.", $channel);
+                                $client->send("3人以上でないとゲームは開始できません。", $channel);
                             });
                         return;
                     }

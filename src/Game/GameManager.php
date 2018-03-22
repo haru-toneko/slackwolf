@@ -435,7 +435,7 @@ class GameManager
                 if ($player->role->isRole(Role::HUNTER)) {
                     $game->setHunterNeedsToShoot(true);
                     $hunterMsg .= ":bow_and_arrow: " . $player->getUsername() .
-                        " as hunter you may shoot one person.  Type !shoot @playername, or !shoot noone.";
+                        " は最後に一人を道連れにすることができます。 道連れにする場合は`!shoot @プレーヤーの名前`を、, 誰も道連れにしない場合は`!shoot noone`を発言してください。";
                 }
 		else if($player->role->isRole(Role::TANNER)) {
 		    $game->tannerWin = true;
@@ -540,15 +540,15 @@ class GameManager
     {
         $remainingPlayers = PlayerListFormatter::format($game->getLivingPlayers());
         $dayBreakMsg = WeatherFormatter::format($game)."\r\n";
-        $dayBreakMsg .= "Remaining Players: {$remainingPlayers}\r\n\r\n";
-        $dayBreakMsg .= "Villagers, find the Werewolves! Type !vote @username to vote to lynch a player.";
-        if ($this->optionsManager->getOptionValue(OptionName::CHANGE_VOTE))
+        $dayBreakMsg .= "生きているプレイヤー: {$remainingPlayers}\r\n\r\n";
+        $dayBreakMsg .= "村人たちは村に人狼が潜んでいないか調べます。!vote @ユーザーネームで人狼の疑いがある村人を投票しましょう。";
+        if ($this->optionsManager->getOptionValue(OptionName::changevote))
         {
-            $dayBreakMsg .= "\r\nYou may change your vote at any time before voting closes. Type !vote clear to remove your vote.";
+            $dayBreakMsg .= "\r\n全員が投票し終わる前なら投票の相手を変えられます。 !vote clearであなたの投票を一旦削除できます。";
         }
         if ($this->optionsManager->getOptionValue(OptionName::NO_LYNCH))
         {
-            $dayBreakMsg .= "\r\nType !vote noone to vote to not lynch anybody today.";
+            $dayBreakMsg .= "\r\n!vote nooneを発言すると、今日は誰もリンチしない選択肢に投票できます。";
         }
 
         $this->sendMessageToChannel($game, $dayBreakMsg);

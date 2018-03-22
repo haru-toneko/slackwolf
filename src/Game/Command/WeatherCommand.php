@@ -22,7 +22,7 @@ class WeatherCommand extends Command
         if ( ! $this->gameManager->hasGame($this->channel)) {
             $client->getChannelGroupOrDMByID($this->channel)
                ->then(function (ChannelInterface $channel) use ($client) {
-                   $client->send(":warning: Run this command in the game channel.", $channel);
+                   $client->send(":warning: このコマンドはゲームが進行しているチャンネルでのみ利用できます。", $channel);
                });
             return;
         }
@@ -39,13 +39,13 @@ class WeatherCommand extends Command
 
           // Sunny
           else{
-            $this->gameManager->sendMessageToChannel($this->game, ":sunny: The warm sun is shining. Its brightness almost blinds you. You take a moment to appreciate its embrace."); 
+            $this->gameManager->sendMessageToChannel($this->game, ":sunny: 暖かな太陽。その目が眩むほどの光に包まれた私は自分がまだ生きているということに心から感謝した。"); 
           }
-          
+
         }
 
         else{
-          $this->gameManager->sendMessageToChannel($this->game,"No Game Running"); 
+          $this->gameManager->sendMessageToChannel($this->game,"ゲーム中ではありません"); 
         }
     }
 }

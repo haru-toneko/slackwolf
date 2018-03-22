@@ -35,7 +35,7 @@ class ShootCommand extends Command
         $client = $this->client;
 
         if ( ! $this->game) {
-            throw new Exception("No game in progress.");
+            throw new Exception("現在ゲーム中ではありません。");
         }
 
         if (!$this->game->hunterNeedsToShoot) {
@@ -44,12 +44,12 @@ class ShootCommand extends Command
         }
 
         if ($this->channel[0] == 'D') {
-            $this->gameManager->sendMessageToChannel($this->game, "Please !shoot in the public channel.");
+            $this->gameManager->sendMessageToChannel($this->game, "ゲームが進行しているチャンネルで発言してください。");
             throw new Exception("You may not !shoot privately.");
         }
 
         if (count($this->args) < 1) {
-          $this->gameManager->sendMessageToChannel($this->game, "Please target a player using !shoot @player");
+          $this->gameManager->sendMessageToChannel($this->game, "使い方: !shoot @player");
           throw new InvalidArgumentException("Must specify a player");
         }
 
@@ -81,7 +81,7 @@ class ShootCommand extends Command
             $this->game->setHunterNeedsToShoot(false);
             $this->gameManager->sendMessageToChannel($this->game,
               ":bow_and_arrow: " . $player->getUsername() .
-                  " (Hunter) decided not to shoot anyone, and died.");
+                  " (Hunter) は誰も道連れにせず、一人で死にました。");
         }
         else {
 
@@ -90,7 +90,7 @@ class ShootCommand extends Command
           // Person player is shooting should be alive
           if ( ! $this->game->isPlayerAlive($targeted_player_id)) {
               $this->gameManager->sendMessageToChannel($this->game,
-                ":warning: Targetted player is not in game or dead.");
+                ":warning: 対象のプレーヤーは、ゲームに参加していないか、すでに死んでいます。");
 
               throw new Exception("Voted player not found in game.");
           }
@@ -101,8 +101,8 @@ class ShootCommand extends Command
 
           $this->gameManager->sendMessageToChannel($this->game,
                 ":bow_and_arrow: " . $player->getUsername() .
-                " (Hunter) shot dead " . $targeted_player->getUsername() .
-                " (" . $targeted_player->role->getName() . "), and then died.");
+                " (Hunter) は " . $targeted_player->getUsername() .
+                " (" . $targeted_player->role->getName() . ") を道連れにして、死にました。");
         }
 
         if ($this->game->getState() == GameState::DAY) {

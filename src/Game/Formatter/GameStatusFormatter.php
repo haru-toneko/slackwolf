@@ -19,10 +19,10 @@ class GameStatusFormatter
      */
     public static function format(Game $game)
     {
-        $msg = ":memo: Game Status\r\n- - - - - - - - - - - - - - - - - - - - - - - -\r\n";
+        $msg = ":memo: ゲームの状態\r\n- - - - - - - - - - - - - - - - - - - - - - - -\r\n";
 
         if ($game->hunterNeedsToShoot) {
-            $msg .= "_...waiting on the_ :bow_and_arrow: Hunter";
+            $msg .= ":bow_and_arrow: Hunter を待っています";
             $msg .= "\r\n- - - - - - - - - - - - - - - - - - - - - - - -\r\n";
             return $msg;
         }
@@ -32,7 +32,7 @@ class GameStatusFormatter
             case GameState::DAY:
                 $voteMsg = VoteSummaryFormatter::format($game);
 
-                $msg .= ":sun_small_cloud:  It is now Day.  Please vote!\r\n";
+                $msg .= ":sun_small_cloud:  日中です。誰をリンチするか投票しましょう！\r\n";
                 $msg .= $voteMsg . "\r\n";
                 break;
 

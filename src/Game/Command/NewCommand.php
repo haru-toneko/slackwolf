@@ -66,7 +66,7 @@ class NewCommand extends Command
             $gameManager->newGame($message->getChannel(), [], $roleStrategy);
 
             $game = $gameManager->getGame($message->getChannel());
-            $this->gameManager->sendMessageToChannel($game, "A new game lobby has been created.  Type !join to play the next game.");
+            $this->gameManager->sendMessageToChannel($game, "新しいゲームのロビーが作成されました。!joinでこのルームに参加できます。");
             $userId = $this->userId;
 
             $this->client->getChannelGroupOrDMByID($this->channel)
@@ -82,7 +82,7 @@ class NewCommand extends Command
                 });
 
             $playersList = PlayerListFormatter::format($game->getLobbyPlayers());
-            $this->gameManager->sendMessageToChannel($game, "Current lobby: ".$playersList);
+            $this->gameManager->sendMessageToChannel($game, "現在ロビーにいるプレーヤー: ".$playersList);
         } catch (Exception $e) {
             $this->client->getChannelGroupOrDMByID($this->channel)->then(function (ChannelInterface $channel) use ($client,$e) {
                 $client->send($e->getMessage(), $channel);

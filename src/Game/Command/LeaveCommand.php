@@ -29,7 +29,7 @@ class LeaveCommand extends Command
         }
 
         if ( ! $this->game) {
-            throw new Exception("No game in progress.");
+            throw new Exception("現在ゲーム中ではありません。");
         }
         
         if ($this->game->getState() != GameState::LOBBY) { 
@@ -47,7 +47,7 @@ class LeaveCommand extends Command
         $playersList = PlayerListFormatter::format($this->game->getLobbyPlayers());
 
         if ($playersList) {
-            $this->gameManager->sendMessageToChannel($this->game, "Current lobby: " . $playersList);
+            $this->gameManager->sendMessageToChannel($this->game, "現在ロビーにいるプレーヤー: " . $playersList);
         } else {
             $this->gameManager->sendMessageToChannel($this->game, "Lobby is now empty");
         }

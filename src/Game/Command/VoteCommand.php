@@ -24,7 +24,7 @@ class VoteCommand extends Command
         parent::__construct($client, $gameManager, $message, $args);
 
         if ($this->channel[0] == 'D') {
-            throw new Exception("You may not !vote privately.");
+            throw new Exception("このコマンドはダイレクトメッセージからは利用できません。");
         }
 
         if (count($this->args) < 1) {
@@ -32,7 +32,7 @@ class VoteCommand extends Command
         }
 
         if ( ! $this->game) {
-            throw new Exception("No game in progress.");
+            throw new Exception("現在ゲーム中ではありません。");
         }
 
         if ($this->game->getState() != GameState::DAY) {
@@ -41,7 +41,7 @@ class VoteCommand extends Command
 
         // Voter should be alive
         if ( ! $this->game->isPlayerAlive($this->userId)) {
-            throw new Exception("Can't vote if dead.");
+            throw new Exception("死んでいるプレーヤーは投票できません。");
         }
 
         $this->args[0] = UserIdFormatter::format($this->args[0], $this->game->getOriginalPlayers());

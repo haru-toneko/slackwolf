@@ -35,13 +35,13 @@ class KillCommand extends Command
         $client = $this->client;
 
         if ($this->channel[0] != 'D') {
-            throw new Exception("You may only !kill privately.");
+            throw new Exception("!killはダイレクトメッセージでのみ利用できます。");
         }
 
         if (count($this->args) < 2) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: Invalid command. Usage: !kill #channel @user", $channel);
+                       $client->send(":warning: コマンドの使い方が間違っています。使い方: !kill #channel @user", $channel);
                    });
             throw new InvalidArgumentException("Not enough arguments");
         }
@@ -99,9 +99,9 @@ class KillCommand extends Command
         if ( ! $this->game) {
             $client->getChannelGroupOrDMByID($this->channel)
                    ->then(function (ChannelInterface $channel) use ($client) {
-                       $client->send(":warning: No game in progress.", $channel);
+                       $client->send(":warning: 現在ゲーム中ではありません。", $channel);
                    });
-            throw new Exception("No game in progress.");
+            throw new Exception("現在ゲーム中ではありません。");
         }
 
         $this->args[1] = UserIdFormatter::format($this->args[1], $this->game->getOriginalPlayers());
