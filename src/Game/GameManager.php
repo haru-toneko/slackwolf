@@ -429,7 +429,7 @@ class GameManager
             $lynchedNames = [];
             foreach ($players_to_be_lynched as $player_id) {
                 $player = $game->getPlayerById($player_id);
-                $lynchedNames[] = "@{$player->getUsername()} ({$player->role->getName()})";
+                $lynchedNames[] = "@{$player->getUsername()}";
                 $game->killPlayer($player_id);
 
                 if ($player->role->isRole(Role::HUNTER)) {
@@ -654,7 +654,7 @@ class GameManager
 		if($num == 1){
 			$livingPlayers = $game->getLivingPlayers();
 			$playerToKill = $livingPlayers[array_rand($livingPlayers)];
-			$this->sendMessageToChannel($game, ":goberserk: Ebola has struck! @{$playerToKill->getUsername()} ({$playerToKill->role->getName()}) is no longer with us.");
+			$this->sendMessageToChannel($game, ":goberserk: Ebola has struck! @{$playerToKill->getUsername()} is no longer with us.");
 			$game->killPlayer($playerToKill->getId());
 			$numKilled++;
 		}
@@ -671,7 +671,7 @@ class GameManager
             }
             else {
 
-                $killMsg .= " @{$player->getUsername()} ({$player->role->getName()})";
+                $killMsg .= " @{$player->getUsername()}";
 
                 if ($player->role->isRole(Role::HUNTER)) {
                     $hunterKilled = true;
@@ -690,13 +690,12 @@ class GameManager
             $poisoned_player_id = $game->getWitchPoisonedUserId();
             $poisoned_player = $game->getPlayerById($poisoned_player_id);
             $poisoned_player_name = $poisoned_player->getUsername();
-            $poisoned_player_role = (string) $poisoned_player->role->getName();
 
             if ($numKilled > 0) {
                 $killMsg .= " and";
             }
 
-            $killMsg .= " @{$poisoned_player->getUsername()} ($poisoned_player_role)";
+            $killMsg .= " @{$poisoned_player->getUsername()}";
 
             $game->killPlayer($poisoned_player_id);
             $hasKilled = true;
