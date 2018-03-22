@@ -542,7 +542,7 @@ class GameManager
         $dayBreakMsg = WeatherFormatter::format($game)."\r\n";
         $dayBreakMsg .= "生きているプレイヤー: {$remainingPlayers}\r\n\r\n";
         $dayBreakMsg .= "村人たちは村に人狼が潜んでいないか調べます。!vote @ユーザーネームで人狼の疑いがある村人を投票しましょう。";
-        if ($this->optionsManager->getOptionValue(OptionName::changevote))
+        if ($this->optionsManager->getOptionValue(OptionName::CHANGE_VOTE))
         {
             $dayBreakMsg .= "\r\n全員が投票し終わる前なら投票の相手を変えられます。 !vote clearであなたの投票を一旦削除できます。";
         }
