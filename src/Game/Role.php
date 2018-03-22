@@ -72,7 +72,9 @@ class Role
     const LYCAN = "狼人間";
     const TANNER = "皮なめし職人";
     const WITCH = "魔女";
-    const WOLFMAN = "人狼太郎";
+    const WOLFMAN = "狼男";
+    const FOOL = "愚者";
+    const CURSED = "呪われた者";
 
     public static function getSpecialRoles() {
     	return [
