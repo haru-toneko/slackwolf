@@ -48,6 +48,7 @@ class HelpCommand extends Command
         $help_msg .= "`!dead` - Show dead players\r\n";
         $help_msg .= "`!alive` - Show living players\r\n";
         $help_msg .= "`!status` - Show game status\r\n";
+        $help_msg .= "`!assignedRole` - Show game roles\r\n";
 
         $help_msg .= "\r\n*Villager Commands*\r\n----------------------\r\n";
         $help_msg .= "`!vote @user1|noone|clear` - During the day, Vote for a @player, no one (no lynch), or clear your existing vote (changevote option must be enabled).\r\n";
