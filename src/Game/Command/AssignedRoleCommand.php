@@ -19,11 +19,19 @@ class AssignedRoleCommand extends Command
      */
     public function fire()
     {
+        $client = $this->client;
+    
         if ( ! $this->gameManager->hasGame($this->channel)) {
-            $this->client->getChannelGroupOrDMByID($this->channel)
-               ->then(function (ChannelInterface $channel) use ($client) {
-                   $this->client->send(":warning: Run this command in the game channel.", $channel);
-               });
+            $client->getChannelGroupOrDMByID($this->channel)
+                ->then(function (ChannelInterface $channel) use ($client) {
+                    $client->send(":warning: このコマンドはゲームが進行しているチャンネルでのみ利用できます。", $channel);
+                });
+            return;
+        }
+        
+        $lobbyPlayers = $this->game->getLobbyPlayers();
+        
+        if ( ! $lobbyPlayers && ! property_exists($lobbyPlayers, 'role')) {
             return;
         }
 
