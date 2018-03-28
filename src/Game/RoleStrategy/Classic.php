@@ -47,13 +47,14 @@ class Classic implements RoleStrategyInterface
         $num_good = $num_players - $num_evil;
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
-        $num_witch = $optionsManager->getOptionValue(OptionName::ROLE_WITCH) ? 1 : 0;
+        $num_fixed_villager = 1;
         $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
         $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
 
         $requiredRoles = [
             Role::SEER => $num_seer,
-            Role::WEREWOLF => $num_evil
+            Role::WEREWOLF => $num_evil,
+            Role::VILLAGER => $num_fixed_villager
         ];
         
         // psychic role on
@@ -67,7 +68,7 @@ class Classic implements RoleStrategyInterface
         }
 
         $optionalRoles = [
-            Role::VILLAGER => max($num_good - $num_seer + $num_psychic + $num_bodyguard, 0)
+            Role::VILLAGER => max($num_good - $num_seer + $num_fixed_villager + $num_psychic + $num_bodyguard, 0)
         ];
 
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "").
@@ -143,6 +144,8 @@ class Classic implements RoleStrategyInterface
                         $rolePool[] = new Seer();
                     if($role == Role::WEREWOLF)
                         $rolePool[] = new Werewolf();
+                    if($role == Role::VILLAGER)
+                        $rolePool[] = new Villager();
                     if($role == Role::PSYCHIC)
                         $rolePool[] = new Psychic();
                     if($role == Role::BODYGUARD)
