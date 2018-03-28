@@ -644,7 +644,7 @@ class GameManager
                     $appearsAsWerewolf = $lynchedPlayer->role->appearsAsWerewolf();
                 }
             } else {
-                $appearsAsWerewolf = $player->role->appearsAsWerewolf();
+                $appearsAsWerewolf = $lynchedPlayer->role->appearsAsWerewolf();
             }
             $lynchedPlayerSide = $appearsAsWerewolf ? "Werewolves" : "Villagers";
             $psychicMsg = ":star_and_crescent: Psychic, " . $lynchedPlayerName . " is on the side of the " . $lynchedPlayerSide;
