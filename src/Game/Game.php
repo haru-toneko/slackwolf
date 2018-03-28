@@ -26,6 +26,7 @@ class Game
     private $witchPoisonedUserId;
     private $roleStrategy;
     private $optionsManager;
+    private $lynchedUserId;
 
     public $state;
     public $dayEnded;
@@ -638,6 +639,22 @@ class Game
      */
     public function isGameMode($gameMode) {
         return $this->optionsManager->isGameMode($gameMode);
+    }
+    
+    /**
+     * @return mixed
+     */
+    public function getLynchedUserId()
+    {
+        return $this->lynchedUserId;
+    }
+    
+    /**
+     * @param mixed
+     */
+    public function setLynchedUserId($id)
+    {
+        $this->lynchedUserId = $id;
     }
 
 }

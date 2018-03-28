@@ -15,6 +15,7 @@ use Slackwolf\Game\Roles\Witch;
 use Slackwolf\Game\Roles\WolfMan;
 use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
+use Slackwolf\Game\Roles\Psychic;
 
 /**
  * Defines the Classic class.
@@ -47,30 +48,31 @@ class Classic implements RoleStrategyInterface
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
         $num_witch = $optionsManager->getOptionValue(OptionName::ROLE_WITCH) ? 1 : 0;
-        $num_hunter = $optionsManager->getOptionValue(OptionName::ROLE_HUNTER) ? 1 : 0;
+        $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
+        $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
 
         $requiredRoles = [
             Role::SEER => $num_seer,
             Role::WEREWOLF => $num_evil
         ];
-
-        // witch role on
-        if ($optionsManager->getOptionValue(OptionName::ROLE_WITCH)){
-            $requiredRoles[Role::WITCH] = 1;
+        
+        // psychic role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)){
+            $requiredRoles[Role::PSYCHIC] = 1;
         }
 
-        // hunter role on
-        if ($optionsManager->getOptionValue(OptionName::ROLE_HUNTER)){
-            $requiredRoles[Role::HUNTER] = 1;
+        // bodyguard role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)){
+            $requiredRoles[Role::BODYGUARD] = 1;
         }
 
         $optionalRoles = [
-            Role::VILLAGER => max($num_good - $num_seer + $num_witch + $num_hunter, 0)
+            Role::VILLAGER => max($num_good - $num_seer + $num_psychic + $num_bodyguard, 0)
         ];
 
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "").
-            ($num_witch > 0 ? "Witch, " : "").
-            ($num_hunter > 0 ? "Hunter, " : "").
+            ($num_psychic > 0 ? "Psychic, " : "").
+            ($num_bodyguard > 0 ? "Bodyguard, " : "").
             "Werewolf, Villager]";
 
         $possibleOptionalRoles = [new Villager()];
@@ -84,10 +86,16 @@ class Classic implements RoleStrategyInterface
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Beholder";
             }
 
-            if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)){
-                $optionalRoles[Role::BODYGUARD] = 1;
-                $possibleOptionalRoles[] = new Bodyguard();
-                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Bodyguard";
+            if ($optionsManager->getOptionValue(OptionName::ROLE_WITCH)){
+                $optionalRoles[Role::WITCH] = 1;
+                $possibleOptionalRoles[] = new Witch();
+                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Witch";
+            }
+            
+            if ($optionsManager->getOptionValue(OptionName::ROLE_HUNTER)){
+                $optionalRoles[Role::HUNTER] = 1;
+                $possibleOptionalRoles[] = new Hunter();
+                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Hunter";
             }
 
             if ($optionsManager->getOptionValue(OptionName::ROLE_LYCAN)){
@@ -135,10 +143,10 @@ class Classic implements RoleStrategyInterface
                         $rolePool[] = new Seer();
                     if($role == Role::WEREWOLF)
                         $rolePool[] = new Werewolf();
-                    if($role == Role::WITCH)
-                        $rolePool[] = new Witch();
-                    if($role == Role::HUNTER)
-                        $rolePool[] = new Hunter();
+                    if($role == Role::PSYCHIC)
+                        $rolePool[] = new Psychic();
+                    if($role == Role::BODYGUARD)
+                        $rolePool[] = new Bodyguard();
                 }
             }
         }

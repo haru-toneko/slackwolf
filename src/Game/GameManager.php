@@ -420,10 +420,11 @@ class GameManager
 
         if (count($players_to_be_lynched) == 0) {
             $lynchMsg .= ":peace_symbol: The townsfolk decided not to lynch anybody today.";
+            $game->setLynchedUserId(null);
         } elseif (count($players_to_be_lynched) > 1) {
             $lynchMsg .= ":peace_symbol: The townsfolk couldn't agree on who to lynch, so nobody is hung today.";
-         }
-         else {
+            $game->setLynchedUserId(null);
+        } else {
             $lynchMsg .= ":newspaper: With pitchforks in hand, the townsfolk killed: ";
 
             $lynchedNames = [];
@@ -431,6 +432,7 @@ class GameManager
                 $player = $game->getPlayerById($player_id);
                 $lynchedNames[] = "@{$player->getUsername()}";
                 $game->killPlayer($player_id);
+                $game->setLynchedUserId($player_id);
 
                 if ($player->role->isRole(Role::HUNTER)) {
                     $game->setHunterNeedsToShoot(true);
@@ -628,6 +630,32 @@ class GameManager
                 $game->setWitchPoisoned(true);
             }
         }
+        
+        $psychics = $game->getPlayersOfRole(Role::PSYCHIC);
+        $lynchedUserId = $game->getLynchedUserId();
+        if (count($psychics) > 0 && $lynchedUserId != null) {
+            $lynchedPlayer = $game->getPlayerById($lynchedUserId);
+            $lynchedPlayerName = "@{$lynchedPlayer->getUsername()}";
+            if ($lynchedPlayer->role->isRole(Role::FOOL)) {
+                $probs = rand(1, 10);echo ("Probs : $probs\n");
+                if($probs >= 4) {
+                    $appearsAsWerewolf = !$lynchedPlayer->role->appearsAsWerewolf();
+                } else {
+                    $appearsAsWerewolf = $lynchedPlayer->role->appearsAsWerewolf();
+                }
+            } else {
+                $appearsAsWerewolf = $player->role->appearsAsWerewolf();
+            }
+            $lynchedPlayerSide = $appearsAsWerewolf ? "Werewolves" : "Villagers";
+            $psychicMsg = ":star and crescent: Psychic, " . $lynchedPlayerName . "is on the side of the " . $lynchedPlayerSide;
+            foreach ($psychics as $psychic) {
+                $this->client->getDMByUserId($psychic->getId())
+                    ->then(function (DirectMessageChannel $channel) use ($client, $psychicMsg) {
+                        $client->send($psychicMsg, $channel);
+                    });
+            }
+        }
+        
     }
 
     /**

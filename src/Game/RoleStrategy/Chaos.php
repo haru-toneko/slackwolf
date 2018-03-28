@@ -15,6 +15,7 @@ use Slackwolf\Game\Roles\Witch;
 use Slackwolf\Game\Roles\WolfMan;
 use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
+use Slackwolf\Game\Roles\Psychic;
 
 /**
  * Defines the Chaos class.
@@ -46,8 +47,8 @@ class Chaos implements RoleStrategyInterface
         $num_good = $num_players - $num_evil;
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
-        $num_witch = $optionsManager->getOptionValue(OptionName::ROLE_WITCH) ? 1 : 0;
-        $num_hunter = $optionsManager->getOptionValue(OptionName::ROLE_HUNTER) ? 1 : 0;
+        $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
+        $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
 
         $requiredRoles = [
             Role::WEREWOLF => $num_evil
@@ -69,6 +70,19 @@ class Chaos implements RoleStrategyInterface
             $possibleOptionalRoles[] = new Seer();
             $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Seer";
         }
+        
+        // psychic role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)){
+            $optionalRoles[Role::PSYCHIC] = 1;
+            $possibleOptionalRoles[] = new Psychic();
+            $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Psychic";
+        }
+        
+        if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)){
+            $optionalRoles[Role::BODYGUARD] = 1;
+            $possibleOptionalRoles[] = new Bodyguard();
+            $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Bodyguard";
+        }
 
         // witch role on
         if ($optionsManager->getOptionValue(OptionName::ROLE_WITCH)){
@@ -89,12 +103,6 @@ class Chaos implements RoleStrategyInterface
             $optionalRoles[Role::BEHOLDER] = 1;
             $possibleOptionalRoles[] = new Beholder();
             $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Beholder";
-        }
-
-        if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)){
-            $optionalRoles[Role::BODYGUARD] = 1;
-            $possibleOptionalRoles[] = new Bodyguard();
-            $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Bodyguard";
         }
 
         if ($optionsManager->getOptionValue(OptionName::ROLE_LYCAN)){
