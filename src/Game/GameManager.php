@@ -647,7 +647,7 @@ class GameManager
                 $appearsAsWerewolf = $player->role->appearsAsWerewolf();
             }
             $lynchedPlayerSide = $appearsAsWerewolf ? "Werewolves" : "Villagers";
-            $psychicMsg = ":star and crescent: Psychic, " . $lynchedPlayerName . "is on the side of the " . $lynchedPlayerSide;
+            $psychicMsg = ":star_and_crescent: Psychic, " . $lynchedPlayerName . " is on the side of the " . $lynchedPlayerSide;
             foreach ($psychics as $psychic) {
                 $this->client->getDMByUserId($psychic->getId())
                     ->then(function (DirectMessageChannel $channel) use ($client, $psychicMsg) {

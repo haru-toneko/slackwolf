@@ -644,16 +644,14 @@ class Game
     /**
      * @return mixed
      */
-    public function getLynchedUserId()
-    {
+    public function getLynchedUserId() {
         return $this->lynchedUserId;
     }
     
     /**
      * @param mixed
      */
-    public function setLynchedUserId($id)
-    {
+    public function setLynchedUserId($id) {
         $this->lynchedUserId = $id;
     }
 
