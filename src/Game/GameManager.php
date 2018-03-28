@@ -639,14 +639,14 @@ class GameManager
             if ($lynchedPlayer->role->isRole(Role::FOOL)) {
                 $probs = rand(1, 10);echo ("Probs : $probs\n");
                 if($probs >= 4) {
-                    $appearsAsWerewolf = !$lynchedPlayer->role->appearsAsWerewolf();
+                    $isWerewolfTeam = !$lynchedPlayer->role->isWerewolfTeam();
                 } else {
-                    $appearsAsWerewolf = $lynchedPlayer->role->appearsAsWerewolf();
+                    $isWerewolfTeam = $lynchedPlayer->role->isWerewolfTeam();
                 }
             } else {
-                $appearsAsWerewolf = $lynchedPlayer->role->appearsAsWerewolf();
+                $isWerewolfTeam = $lynchedPlayer->role->isWerewolfTeam();
             }
-            $lynchedPlayerSide = $appearsAsWerewolf ? "Werewolves" : "Villagers";
+            $lynchedPlayerSide = $isWerewolfTeam ? "Werewolves" : "Villagers";
             $psychicMsg = ":star_and_crescent: Psychic, " . $lynchedPlayerName . " is on the side of the " . $lynchedPlayerSide;
             foreach ($psychics as $psychic) {
                 $this->client->getDMByUserId($psychic->getId())
