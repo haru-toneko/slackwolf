@@ -47,7 +47,7 @@ class Classic implements RoleStrategyInterface
         $num_good = $num_players - $num_evil;
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
-        $num_fixed_villager = 1;
+        $num_fixed_villager = $num_players >= 4 ? 2 : 1;
         $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
         $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
 
@@ -68,7 +68,7 @@ class Classic implements RoleStrategyInterface
         }
 
         $optionalRoles = [
-            Role::VILLAGER => max($num_good - $num_seer + $num_fixed_villager + $num_psychic + $num_bodyguard, 0)
+            Role::VILLAGER => max($num_good - $num_seer - $num_fixed_villager - $num_psychic - $num_bodyguard, 0)
         ];
 
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "").
