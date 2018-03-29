@@ -636,16 +636,7 @@ class GameManager
         if (count($psychics) > 0 && $lynchedUserId != null) {
             $lynchedPlayer = $game->getPlayerById($lynchedUserId);
             $lynchedPlayerName = "@{$lynchedPlayer->getUsername()}";
-            if ($lynchedPlayer->role->isRole(Role::FOOL)) {
-                $probs = rand(1, 10);echo ("Probs : $probs\n");
-                if($probs >= 4) {
-                    $isWerewolfTeam = !$lynchedPlayer->role->isWerewolfTeam();
-                } else {
-                    $isWerewolfTeam = $lynchedPlayer->role->isWerewolfTeam();
-                }
-            } else {
-                $isWerewolfTeam = $lynchedPlayer->role->isWerewolfTeam();
-            }
+            $isWerewolfTeam = $lynchedPlayer->role->isWerewolfTeam();
             $lynchedPlayerSide = $isWerewolfTeam ? "Werewolves" : "Villagers";
             $psychicMsg = ":star_and_crescent: Psychic, " . $lynchedPlayerName . " is on the side of the " . $lynchedPlayerSide;
             foreach ($psychics as $psychic) {
