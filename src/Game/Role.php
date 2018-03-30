@@ -11,6 +11,7 @@ use Slackwolf\Game\Roles\WolfMan;
 use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
 use Slackwolf\Game\Roles\Psychic;
+use Slackwolf\Game\Roles\Maniac;
 
 /**
  * Defines the Role class.
@@ -77,6 +78,7 @@ class Role
     const FOOL = "愚者";
     const CURSED = "呪われた者";
     const PSYCHIC = "霊媒師";
+    const MANIAC = "狂人";
 
     public static function getSpecialRoles() {
     	return [
@@ -90,7 +92,8 @@ class Role
             new WolfMan(),
             new Fool(),
             new Cursed(),
-            new Psychic()
+            new Psychic(),
+            new Maniac(),
         ];
     }
 }

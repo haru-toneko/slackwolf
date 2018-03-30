@@ -16,6 +16,7 @@ use Slackwolf\Game\Roles\WolfMan;
 use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
 use Slackwolf\Game\Roles\Psychic;
+use Slackwolf\Game\Roles\Maniac;
 
 /**
  * Defines the Chaos class.
@@ -131,6 +132,12 @@ class Chaos implements RoleStrategyInterface
             $optionalRoles[Role::CURSED] = 1;
             $possibleOptionalRoles[] = new Cursed();
             $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Cursed";
+        }
+        
+        if ($optionsManager->getOptionValue(OptionName::ROLE_MANIAC)){
+            $optionalRoles[Role::MANIAC] = 1;
+            $possibleOptionalRoles[] = new Maniac();
+            $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Maniac";
         }
 
         shuffle($possibleOptionalRoles);
