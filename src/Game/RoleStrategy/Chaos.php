@@ -44,7 +44,7 @@ class Chaos implements RoleStrategyInterface
     public function assign(array $players, $optionsManager)
     {
         $num_players = count($players);
-        $num_evil = floor($num_players / 3);
+        $num_evil = $num_players <= 3 ? 1 : floor($num_players / 4);
         $num_good = $num_players - $num_evil;
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
