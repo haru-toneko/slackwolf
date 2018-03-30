@@ -552,6 +552,17 @@ class GameManager
         {
             $dayBreakMsg .= "\r\n!vote nooneを発言すると、今日は誰もリンチしない選択肢に投票できます。";
         }
+        
+        $isLivingBaker = false;
+        $livingPlayers = $game->getLivingPlayers();
+        foreach ($livingPlayers as $player) {
+            if ($player->role->isRole(Role::BAKER)) {
+                $isLivingBaker = true;
+            }
+        }
+        if ($isLivingBaker) {
+            $dayBreakMsg .= "\r\n:baguette_bread::baguette_bread::baguette_bread: パン屋がおいしいパンを焼いてくれたそうです。 :bread: :bread: :bread: ";
+        }
 
         $this->sendMessageToChannel($game, $dayBreakMsg);
     }
@@ -661,23 +672,27 @@ class GameManager
         $hasHealed = false;
         $hasKilled = false;
         $hunterKilled = false;
+        $hasKilledBaker = false;
 
         $hunterName = "";
         $killMsg = ":skull_and_crossbones: ";
 
 
-	$ebolaRate = (int)$this->optionsManager->getOptionValue(OptionName::EBOLA);
+        $ebolaRate = (int)$this->optionsManager->getOptionValue(OptionName::EBOLA);
 
-	if($ebolaRate > 0){
-		$num = (int) rand(0, $ebolaRate);
-		if($num == 1){
-			$livingPlayers = $game->getLivingPlayers();
-			$playerToKill = $livingPlayers[array_rand($livingPlayers)];
-			$this->sendMessageToChannel($game, ":goberserk: Ebola has struck! @{$playerToKill->getUsername()} is no longer with us.");
-			$game->killPlayer($playerToKill->getId());
-			$numKilled++;
-		}
-	}
+        if($ebolaRate > 0){
+            $num = (int) rand(0, $ebolaRate);
+            if($num == 1){
+                $livingPlayers = $game->getLivingPlayers();
+                $playerToKill = $livingPlayers[array_rand($livingPlayers)];
+                $this->sendMessageToChannel($game, ":goberserk: Ebola has struck! @{$playerToKill->getUsername()} is no longer with us.");
+                $game->killPlayer($playerToKill->getId());
+                if ($playerToKill->role->isRole(Role::BAKER)) {
+                    $hasKilledBaker = true;
+                }
+                $numKilled++;
+            }
+        }
 
         foreach ($votes as $lynch_id => $voters) {
             $player = $game->getPlayerById($lynch_id);
@@ -699,6 +714,9 @@ class GameManager
 
                 $game->killPlayer($lynch_id);
                 $hasKilled = true;
+                if ($player->role->isRole(Role::BAKER)) {
+                    $hasKilledBaker = true;
+                }
                 $numKilled++;
             }
         }
@@ -717,6 +735,9 @@ class GameManager
             $killMsg .= " @{$poisoned_player->getUsername()}";
 
             $game->killPlayer($poisoned_player_id);
+            if ($poisoned_player->role->isRole(Role::BAKER)) {
+                $hasKilledBaker = true;
+            }
             $hasKilled = true;
             $numKilled++;
             $game->setWitchPoisonedUserId(null);
@@ -747,6 +768,11 @@ class GameManager
                 $hunterMsg = ":bow_and_arrow: " . $hunterName . " you were killed.  The night isn't over, though, because as a hunter you can take one other player with you to your grave.  Type !shoot @playername, or !shoot noone.";
                 $this->sendMessageToChannel($game, $hunterMsg);
             }
+        }
+        
+        if ($hasKilledBaker) {
+            $bakerMsg = ":fallen_leaf: 今日からはもうおいしいパンが食べられません...";
+            $this->sendMessageToChannel($game, $bakerMsg);
         }
 
         if ($numKilled == 0) {

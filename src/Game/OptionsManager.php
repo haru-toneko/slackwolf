@@ -28,6 +28,7 @@ class OptionName
     const ROLE_CURSED = 'role_cursed';
     const ROLE_PSYCHIC = 'role_psychic';
     const ROLE_MANIAC = 'role_maniac';
+    const ROLE_BAKER = 'role_baker';
 
     const START_MODE_OPTIONS = array(OptionName::GAME_MODE_CHAOS, OptionName::GAME_MODE_VANILLA, OptionName::GAME_MODE_CLASSIC);
     const NEW_MODE_OPTIONS = array(OptionName::GAME_MODE_CHAOS, OptionName::GAME_MODE_VANILLA, OptionName::GAME_MODE_CLASSIC);
@@ -106,6 +107,8 @@ class OptionsManager
             "Use Psychic role in random games.");
         $this->options[OptionName::ROLE_MANIAC] = new Option(OptionName::ROLE_MANIAC, OptionType::Bool, "on",
             "Use Maniac role in random games.");
+        $this->options[OptionName::ROLE_BAKER] = new Option(OptionName::ROLE_BAKER, OptionType::Bool, "on",
+            "Use Baker role in random games.");
         $this->options[OptionName::GAME_MODE] = new Option(OptionName::GAME_MODE, OptionType::String, "classic",
             "Choose game mode: classic, chaos, vanilla");
         $this->options[OptionName::EBOLA] = new Option(OptionName::EBOLA, OptionType::Int, "10",

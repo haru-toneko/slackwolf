@@ -17,6 +17,7 @@ use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
 use Slackwolf\Game\Roles\Psychic;
 use Slackwolf\Game\Roles\Maniac;
+use Slackwolf\Game\Roles\Baker;
 
 /**
  * Defines the Classic class.
@@ -133,6 +134,12 @@ class Classic implements RoleStrategyInterface
                 $optionalRoles[Role::CURSED] = 1;
                 $possibleOptionalRoles[] = new Cursed();
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Cursed";
+            }
+            
+            if ($optionsManager->getOptionValue(OptionName::ROLE_BAKER)){
+                $optionalRoles[Role::BAKER] = 1;
+                $possibleOptionalRoles[] = new Baker();
+                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Baker";
             }
 
         }

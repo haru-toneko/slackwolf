@@ -12,6 +12,7 @@ use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
 use Slackwolf\Game\Roles\Psychic;
 use Slackwolf\Game\Roles\Maniac;
+use Slackwolf\Game\Roles\Baker;
 
 /**
  * Defines the Role class.
@@ -79,6 +80,7 @@ class Role
     const CURSED = "呪われた者";
     const PSYCHIC = "霊媒師";
     const MANIAC = "狂人";
+    const BAKER = "パン屋";
 
     public static function getSpecialRoles() {
     	return [
@@ -94,6 +96,7 @@ class Role
             new Cursed(),
             new Psychic(),
             new Maniac(),
+            new Baker(),
         ];
     }
 }

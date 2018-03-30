@@ -17,6 +17,7 @@ use Slackwolf\Game\Roles\Fool;
 use Slackwolf\Game\Roles\Cursed;
 use Slackwolf\Game\Roles\Psychic;
 use Slackwolf\Game\Roles\Maniac;
+use Slackwolf\Game\Roles\Baker;
 
 /**
  * Defines the Chaos class.
@@ -138,6 +139,12 @@ class Chaos implements RoleStrategyInterface
             $optionalRoles[Role::MANIAC] = 1;
             $possibleOptionalRoles[] = new Maniac();
             $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Maniac";
+        }
+        
+        if ($optionsManager->getOptionValue(OptionName::ROLE_BAKER)){
+            $optionalRoles[Role::BAKER] = 1;
+            $possibleOptionalRoles[] = new Baker();
+            $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Baker";
         }
 
         shuffle($possibleOptionalRoles);

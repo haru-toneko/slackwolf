@@ -94,7 +94,7 @@ class ShootCommand extends Command
 
               throw new Exception("Voted player not found in game.");
           }
-
+          
           $targeted_player = $this->game->getPlayerById($targeted_player_id);
           $this->game->killPlayer($targeted_player_id);
           $this->game->setHunterNeedsToShoot(false);
@@ -103,6 +103,12 @@ class ShootCommand extends Command
                 ":bow_and_arrow: " . $player->getUsername() .
                 " (Hunter) は " . $targeted_player->getUsername() .
                 " (" . $targeted_player->role->getName() . ") を道連れにして、死にました。");
+          
+          $hasKilledBaker = $targeted_player->role->isRole(Role::BAKER);
+          if ($hasKilledBaker) {
+              $bakerMsg = ":fallen_leaf: 今日からはもうおいしいパンが食べられません...";
+              $this->gameManager->sendMessageToChannel($this->$game, $bakerMsg);
+          }
         }
 
         if ($this->game->getState() == GameState::DAY) {
