@@ -50,6 +50,7 @@ class Classic implements RoleStrategyInterface
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
         $num_fixed_villager = $num_players >= 4 ? 2 : 1;
         $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
+        $num_maniac = $optionsManager->getOptionValue(OptionName::ROLE_MANIAC) ? 1 : 0;
         $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
 
         $requiredRoles = [
@@ -59,21 +60,27 @@ class Classic implements RoleStrategyInterface
         ];
         
         // psychic role on
-        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)){
+        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)) {
             $requiredRoles[Role::PSYCHIC] = 1;
+        }
+        
+        // maniac role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_MANIAC)) {
+            $requiredRoles[Role::MANIAC] = 1;
         }
 
         // bodyguard role on
-        if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)){
+        if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)) {
             $requiredRoles[Role::BODYGUARD] = 1;
         }
 
         $optionalRoles = [
-            Role::VILLAGER => max($num_good - $num_seer - $num_fixed_villager - $num_psychic - $num_bodyguard, 0)
+            Role::VILLAGER => max($num_good - $num_seer - $num_fixed_villager - $num_psychic - $num_maniac - $num_bodyguard, 0)
         ];
 
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "").
             ($num_psychic > 0 ? "Psychic, " : "").
+            ($num_maniac > 0 ? "Maniac, " : "").
             ($num_bodyguard > 0 ? "Bodyguard, " : "").
             "Werewolf, Villager]";
 
@@ -127,12 +134,6 @@ class Classic implements RoleStrategyInterface
                 $possibleOptionalRoles[] = new Cursed();
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Cursed";
             }
-            
-            if ($optionsManager->getOptionValue(OptionName::ROLE_MANIAC)){
-                $optionalRoles[Role::MANIAC] = 1;
-                $possibleOptionalRoles[] = new Maniac();
-                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Maniac";
-            }
 
         }
 
@@ -155,6 +156,8 @@ class Classic implements RoleStrategyInterface
                         $rolePool[] = new Villager();
                     if($role == Role::PSYCHIC)
                         $rolePool[] = new Psychic();
+                    if($role == Role::MANIAC)
+                        $rolePool[] = new Maniac();
                     if($role == Role::BODYGUARD)
                         $rolePool[] = new Bodyguard();
                 }
