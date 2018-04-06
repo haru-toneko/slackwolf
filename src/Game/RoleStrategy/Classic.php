@@ -49,10 +49,11 @@ class Classic implements RoleStrategyInterface
         $num_good = $num_players - $num_evil;
 
         $num_seer = $optionsManager->getOptionValue(OptionName::ROLE_SEER) ? 1 : 0;
-        $num_fixed_villager = $num_players >= 4 ? 2 : 1;
-        $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
+        $num_fixed_villager = 1;
+        $num_baker = $optionsManager->getOptionValue(OptionName::ROLE_BAKER) ? 1 : 0;
         $num_maniac = $optionsManager->getOptionValue(OptionName::ROLE_MANIAC) ? 1 : 0;
         $num_bodyguard = $optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD) ? 1 : 0;
+        $num_psychic = $optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC) ? 1 : 0;
 
         $requiredRoles = [
             Role::SEER => $num_seer,
@@ -60,9 +61,9 @@ class Classic implements RoleStrategyInterface
             Role::VILLAGER => $num_fixed_villager
         ];
         
-        // psychic role on
-        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)) {
-            $requiredRoles[Role::PSYCHIC] = 1;
+        // baker role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_BAKER)) {
+            $requiredRoles[Role::BAKER] = 1;
         }
         
         // maniac role on
@@ -74,15 +75,21 @@ class Classic implements RoleStrategyInterface
         if ($optionsManager->getOptionValue(OptionName::ROLE_BODYGUARD)) {
             $requiredRoles[Role::BODYGUARD] = 1;
         }
+        
+        // psychic role on
+        if ($optionsManager->getOptionValue(OptionName::ROLE_PSYCHIC)) {
+            $requiredRoles[Role::PSYCHIC] = 1;
+        }
 
         $optionalRoles = [
-            Role::VILLAGER => max($num_good - $num_seer - $num_fixed_villager - $num_psychic - $num_maniac - $num_bodyguard, 0)
+            Role::VILLAGER => max($num_good - $num_seer - $num_fixed_villager - $num_baker - $num_maniac - $num_bodyguard -$num_psychic, 0)
         ];
 
         $this->roleListMsg = "Required: [".($num_seer > 0 ? "Seer, " : "").
-            ($num_psychic > 0 ? "Psychic, " : "").
+            ($num_baker > 0 ? "Baker, " : "").
             ($num_maniac > 0 ? "Maniac, " : "").
             ($num_bodyguard > 0 ? "Bodyguard, " : "").
+            ($num_psychic > 0 ? "Psychic, " : "").
             "Werewolf, Villager]";
 
         $possibleOptionalRoles = [new Villager()];
@@ -135,12 +142,6 @@ class Classic implements RoleStrategyInterface
                 $possibleOptionalRoles[] = new Cursed();
                 $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Cursed";
             }
-            
-            if ($optionsManager->getOptionValue(OptionName::ROLE_BAKER)){
-                $optionalRoles[Role::BAKER] = 1;
-                $possibleOptionalRoles[] = new Baker();
-                $optionalRoleListMsg .= (strlen($optionalRoleListMsg) > 0 ? ", " : "")."Baker";
-            }
 
         }
 
@@ -161,12 +162,14 @@ class Classic implements RoleStrategyInterface
                         $rolePool[] = new Werewolf();
                     if($role == Role::VILLAGER)
                         $rolePool[] = new Villager();
-                    if($role == Role::PSYCHIC)
-                        $rolePool[] = new Psychic();
+                    if($role == Role::BAKER)
+                        $rolePool[] = new Baker();
                     if($role == Role::MANIAC)
                         $rolePool[] = new Maniac();
                     if($role == Role::BODYGUARD)
                         $rolePool[] = new Bodyguard();
+                    if($role == Role::PSYCHIC)
+                        $rolePool[] = new Psychic();
                 }
             }
         }
@@ -181,10 +184,10 @@ class Classic implements RoleStrategyInterface
         }
 
         //If playing with Wolf Man, swap out a Werewolf for a Wolf Man.
-        //Determine if Wolf man should be swapped randomly based off of # of players % 3
+        //Determine if Wolf man should be swapped randomly based off of # of players % 4
         //For now: (0 = 20%, 1 = 40%, 2 = 60%)
         if($optionsManager->getOptionValue(OptionName::ROLE_WOLFMAN) ? 1 : 0) {
-            $threshold = (.2 + (($num_players % 3) * .2)) * 100;
+            $threshold = (.1 + (($num_players % 4) * .2)) * 100;
             $randVal = rand(0, 100);
             if($randVal < $threshold) {
                 foreach($rolePool as $key=>$role) {
