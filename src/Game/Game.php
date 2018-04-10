@@ -52,7 +52,7 @@ class Game
         $this->optionsManager = new OptionsManager();
         $this->state = GameState::LOBBY;
         $this->lobbyPlayers = $users;
-	$this->tannerWin = false;
+        $this->tannerWin = false;
     }
 
     /**

@@ -145,18 +145,13 @@ class GameManager
     public function changeGameState($gameId, $newGameState)
     {
         $game = $this->getGame($gameId);
-
+        
         if ( ! $game) {
             throw new Exception();
         }
 
         if ($game->hunterNeedsToShoot) {
             $this->sendMessageToChannel($game, "Hunter still needs to kill someone.");
-            return;
-        }
-
-        if ($game->hunterNeedsToShoot) {
-            $this->sendMessageToChannel($game, "It is still night, and the Hunter still needs to kill someone.");
             return;
         }
 
@@ -177,7 +172,6 @@ class GameManager
                 return;
             }
         }
-
         // changing from night to day
         else if ($game->getState() == GameState::NIGHT && $newGameState == GameState::DAY && !$game->nightEnded) {
 
@@ -192,13 +186,11 @@ class GameManager
             }
 
             $numWolf = count($game->getWerewolves());
-
             if ($numWolf && ! $game->getWolvesVoted()) {
                 return;
             }
 
             $numBodyguard = $game->getNumRole(Role::BODYGUARD);
-
             if ($numBodyguard && ! $game->getGuardedUserId()) {
                 return;
             }
@@ -215,10 +207,12 @@ class GameManager
             $this->onNightEnd($game);
 
             if ($game->hunterNeedsToShoot) {
+                echo '$game->hunterNeedsToShoot';
                 return;
             }
 
             if ($game->isOver()) {
+                echo '$game->isOver()';
                 $this->onGameOver($game);
                 return;
             }
@@ -520,7 +514,7 @@ class GameManager
                     }
                 });
         }
-        ;
+        
         $playerList = PlayerListFormatter::format($game->getLivingPlayers());
         $roleList = RoleListFormatter::format($game->getLivingPlayers());
 
@@ -609,7 +603,6 @@ class GameManager
                  });
         }
 
-
         $bodyGuardMsg = ":shield: Bodyguard, you may guard someone once per with your grizzled ex-lawman skills. That player cannot be eliminated. Type !guard #channel @user";
 
         $bodyguards = $game->getPlayersOfRole(Role::BODYGUARD);
@@ -673,7 +666,6 @@ class GameManager
 
         $hunterName = "";
         $killMsg = ":skull_and_crossbones: ";
-
 
         $ebolaRate = (int)$this->optionsManager->getOptionValue(OptionName::EBOLA);
 

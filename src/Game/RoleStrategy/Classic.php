@@ -185,7 +185,6 @@ class Classic implements RoleStrategyInterface
 
         //If playing with Wolf Man, swap out a Werewolf for a Wolf Man.
         //Determine if Wolf man should be swapped randomly based off of # of players % 4
-        //For now: (0 = 20%, 1 = 40%, 2 = 60%)
         if($optionsManager->getOptionValue(OptionName::ROLE_WOLFMAN) ? 1 : 0) {
             $threshold = (.1 + (($num_players % 4) * .2)) * 100;
             $randVal = rand(0, 100);

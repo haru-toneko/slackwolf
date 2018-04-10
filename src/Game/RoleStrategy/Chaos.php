@@ -177,7 +177,7 @@ class Chaos implements RoleStrategyInterface
         //Determine if Wolf man should be swapped randomly based off of # of players % 3
         //For now: (0 = 20%, 1 = 40%, 2 = 60%)
         if($optionsManager->getOptionValue(OptionName::ROLE_WOLFMAN) ? 1 : 0) {
-            $threshold = (.2 + (($num_players % 3) * .2)) * 100;
+            $threshold = (.1 + (($num_players % 4) * .2)) * 100;
             $randVal = rand(0, 100);
             if($randVal < $threshold) {
                 foreach($rolePool as $key=>$role) {
@@ -203,7 +203,12 @@ class Chaos implements RoleStrategyInterface
 
     public function firstNight($gameManager, $game, $msg)
     {
-        $gameManager->sendMessageToChannel($game, $msg);
-        $gameManager->changeGameState($game->getId(), GameState::NIGHT);
+        if ($gameManager->optionsManager->getOptionValue(OptionName::ROLE_SEER) || $gameManager->optionsManager->getOptionValue(OptionName::ROLE_FOOL)) {
+            $msg .= " The game will begin when the Seer(s) (if there is one) chooses someone.";
+            $gameManager->sendMessageToChannel($game, $msg);
+        } else {
+            $gameManager->sendMessageToChannel($game, $msg);
+            $gameManager->changeGameState($game->getId(), GameState::DAY);
+        }
     }
 }
