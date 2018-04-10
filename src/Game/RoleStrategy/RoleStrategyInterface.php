@@ -18,12 +18,4 @@ interface RoleStrategyInterface
     /**
      * @return string
      */
-    public function getRoleListMsg();
-
-    /**
-     * @param $gameManager
-     * @param $game
-     * @param $msg
-     */
-    public function firstNight($gameManager, $game, $msg);
 }

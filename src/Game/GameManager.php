@@ -151,56 +151,68 @@ class GameManager
         }
 
         if ($game->hunterNeedsToShoot) {
+            echo '$game->hunterNeedsToShoot';
             $this->sendMessageToChannel($game, "Hunter still needs to kill someone.");
             return;
         }
 
         if ($game->isOver()) {
+            echo '$game->isOver()';
             $this->onGameOver($game);
             return;
         }
 
         // changing from first night to day
         if ($game->getState() == GameState::FIRST_NIGHT && $newGameState == GameState::DAY) {
+            echo '';
             $numSeer = $game->getNumRole(Role::SEER);
             if ($numSeer && ! $game->seerSeen()) {
+                echo '$numSeer && ! $game->seerSeen()';
                 return;
             }
 
             $numFool = $game->getNumRole(Role::FOOL);
             if ($numFool && ! $game->foolSeen()) {
+                echo '$numFool && ! $game->foolSeen()';
                 return;
             }
         }
         // changing from night to day
         else if ($game->getState() == GameState::NIGHT && $newGameState == GameState::DAY && !$game->nightEnded) {
+            echo '';
 
             $numSeer = $game->getNumRole(Role::SEER);
             if ($numSeer && ! $game->seerSeen()) {
+                echo '$numSeer && ! $game->seerSeen()';
                 return;
             }
 
             $numFool = $game->getNumRole(Role::FOOL);
             if ($numFool && ! $game->foolSeen()) {
+                echo '$numFool && ! $game->foolSeen()';
                 return;
             }
 
             $numWolf = count($game->getWerewolves());
             if ($numWolf && ! $game->getWolvesVoted()) {
+                echo '$numWolf && ! $game->getWolvesVoted()';
                 return;
             }
 
             $numBodyguard = $game->getNumRole(Role::BODYGUARD);
             if ($numBodyguard && ! $game->getGuardedUserId()) {
+                echo '$numBodyguard && ! $game->getGuardedUserId()';
                 return;
             }
 
             $numWitch = $game->getNumRole(Role::WITCH);
             if ($numWitch && !$game->getWitchHealed()) {
+                echo '$numWitch && !$game->getWitchHealed()';
                 return;
             }
 
             if ($numWitch && !$game->getWitchPoisoned()) {
+                echo '$numWitch && !$game->getWitchPoisoned()';
                 return;
             }
 
@@ -523,7 +535,15 @@ class GameManager
         $msg .= "Possible Roles: {$game->getRoleStrategy()->getRoleListMsg()}\r\n\r\n";
         $msg .= WeatherFormatter::format($game)."\r\n";
 
-        $game->getRoleStrategy()->firstNight($this, $game, $msg);
+        $numSeer = $game->getNumRole(Role::SEER);
+        $numFool = $game->getNumRole(Role::FOOL);
+        if ($numSeer > 0 || $numFool > 0) {
+            $msg .= " The game will begin when the Seer(s) (if there is one) chooses someone.";
+            $this->sendMessageToChannel($game, $msg);
+        } else {
+            $this->sendMessageToChannel($game, $msg);
+            $this->changeGameState($game->getId(), GameState::DAY);
+        }
     }
 
     /**

@@ -209,15 +209,4 @@ class Classic implements RoleStrategyInterface
 
         return $players;
     }
-
-    public function firstNight($gameManager, $game, $msg)
-    {
-        if ($gameManager->optionsManager->getOptionValue(OptionName::ROLE_SEER) || $gameManager->optionsManager->getOptionValue(OptionName::ROLE_FOOL)) {
-            $msg .= " The game will begin when the Seer(s) (if there is one) chooses someone.";
-            $gameManager->sendMessageToChannel($game, $msg);
-        } else {
-            $gameManager->sendMessageToChannel($game, $msg);
-            $gameManager->changeGameState($game->getId(), GameState::DAY);
-        }
-    }
 }
