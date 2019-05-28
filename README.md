@@ -3,39 +3,24 @@ Slackwolf is a bot for Slack. After inviting the bot to a channel, you can play 
 
 ![ProjectImage](http://i.imgur.com/0Kwd8oe.png)
 
-## Roles
-Slackwolf currently supports Seer, Bodyguard, Witch, Lycan, Tanner, Beholder, Villager, Wolfman, and Werewolf. You'll need at least a 6 player game in order to see roles other than Seer/Villager/Werewolf given out.
-
-## How to play
-`/invite` the bot (and some friends) to a channel and type !help
-
-## Installation via Docker
-Run the below command to start a container.
+## インストールと起動
+PHP 5.5+ と [Composer](https://getcomposer.org/) が必要です。
 ```
-docker run -d --name slackwolf --restart always \
-   -e "BOT_TOKEN=xoxb-16776859568-RxBtmpeS7isMAQonAEqS1hYLb" \
-   -e "TIMEZONE=America/Los_Angeles" \
-   -e "BOT_NAME=werewolf-moderator" \
-   -e "DEBUG=1" \
-   gillisct/slackwolf
-```
-
-## Source Installation
-If you don't want to use docker, you can install from source. 
-
-Slackwolf requires PHP 5.5+ and [Composer](https://getcomposer.org/).
-
-```
-git clone http://github.com/chrisgillis/slackwolf
+git clone -b master_dmm git@github.com:haru-toneko/slackwolf.git
 cd slackwolf
 composer install
 ```
 
-Rename `.env.default` to `.env` and edit it with a valid real-time messaging bot token from Slack. Get a valid token from the "Custom Integrations" tab of your Slack "Configure Apps" page. Also be sure to put the correct bot name in the `.env` file as well.
+`.env.default`という名前のファイルを`.env`に名前を変え、対象のbotのトークンを`BOT_TOKEN`に記載してください。
 
-To start the bot type `php bot.php`
+`php bot.php`コマンドでアプリケーションを起動できます。
 
-
+## 遊び方
+- Slackで`!help`と打ってください。botからDMでコマンド一覧を教えてもらえます。
+- `!new`で部屋を作成し、参加したいユーザーが`!join`した後に`!start`でゲームを始めることができます。
+- あらかじめ参加メンバーが決まっているなら、`!start @user1 @user2 @user3`で指定したユーザーでゲームを始めることもできます。
+- 占い師などのロールはbotから指示が来た時にbotに対してDMで提示されたコマンドを実行してください。
+- `!end`でゲームを終了できます。
 
 ## Contributing
 
