@@ -521,9 +521,9 @@ class GameManager
         $playerList = PlayerListFormatter::format($game->getLivingPlayers());
         $roleList = RoleListFormatter::format($game->getLivingPlayers());
 
-        $msg = ":wolf: A new game of Werewolf is starting! For a tutorial, type !help.\r\n\r\n";
+        $msg = ":wolf: ニューゲームスタート！ チュートリアルの確認は !helpコマンドで！\r\n\r\n";
         $msg .= "Players: {$playerList}\r\n";
-        $msg .= "Possible Roles: {$game->getRoleStrategy()->getRoleListMsg()}\r\n\r\n";
+        $msg .= "存在し得る役職: {$game->getRoleStrategy()->getRoleListMsg()}\r\n\r\n";
         $msg .= WeatherFormatter::format($game)."\r\n";
 
         $game->getRoleStrategy()->firstNight($this, $game, $msg);
